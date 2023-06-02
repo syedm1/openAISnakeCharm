@@ -27,15 +27,21 @@ def openai_request():
 
     try:
         # Make the request to OpenAI API
-        response = openai.Completion.create(
-            engine= OPEN_AI_ENGINE,
+        response1 = openai.Completion.create(
+            model= OPEN_AI_ENGINE,
             messages=conversation,
-            max_tokens=MAX_TOKENS,
-            temperature=0.6,
-            n=1,
-            stop=None
         )
 
+        print(response1)
+        response= openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                        {"role": "system", "content": "You are a helpful assistant."},
+                        {"role": "user", "content": "Who won the world series in 2020?"},
+                        {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},
+                        {"role": "user", "content": "Where was it played?"}
+                    ]
+                )
         # Return the generated text as a response
         return jsonify({'data': response})
 
