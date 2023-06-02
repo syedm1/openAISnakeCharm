@@ -1,10 +1,10 @@
 from flask import Flask, request, jsonify
 import openai
+import os
 
 app = Flask(__name__)
 
-# Set up your OpenAI API credentials
-openai.api_key = "YOUR_API_KEY"
+openai.api_key = os.environ.get('OPENAI_API_KEY')
 
 # Define a route for the API endpoint
 @app.route('/messages', methods=['POST'])
@@ -15,7 +15,6 @@ def openai_request():
     # Extract the messages from the data
     messages = data['messages']
 
-    return jsonify({'completion': messages})
     # Prepare the conversation history for OpenAI API
     conversation = []
     for message in messages:
