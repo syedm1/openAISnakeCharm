@@ -6,6 +6,9 @@ app = Flask(__name__)
 
 openai.api_key = os.environ.get('OPENAI_API_KEY')
 
+OPEN_AI_ENGINE = 'gpt-3.5-turbo'
+MAX_TOKENS = 2000
+
 # Define a route for the API endpoint
 @app.route('/messages', methods=['POST'])
 def openai_request():
@@ -25,19 +28,16 @@ def openai_request():
     try:
         # Make the request to OpenAI API
         response = openai.Completion.create(
-            engine='davinci',
+            engine= OPEN_AI_ENGINE,
             messages=conversation,
-            max_tokens=100,
+            max_tokens=MAX_TOKENS,
             temperature=0.6,
             n=1,
             stop=None
         )
 
-        # Get the generated completion text from the response
-        completion_text = response.choices[0].message['content']
-
         # Return the generated text as a response
-        return jsonify({'completion': completion_text})
+        return jsonify({'data': response})
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
