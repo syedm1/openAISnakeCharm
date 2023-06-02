@@ -30,7 +30,9 @@ def openai_request():
                 temperature=0.9,
                 )
         # Return the generated text as a response
-        return jsonify({'data': response})
+
+        responseUltimate = response['choices'][0]['message']
+        return jsonify({'data': responseUltimate})
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
