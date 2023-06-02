@@ -32,7 +32,11 @@ def openai_request():
         # Return the generated text as a response
 
         responseUltimate = response['choices'][0]['message']
-        return jsonify({'data': responseUltimate})
+
+        role = responseUltimate['role']
+        content = responseUltimate['content']
+
+        return jsonify({'role': role, 'content': content})
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
